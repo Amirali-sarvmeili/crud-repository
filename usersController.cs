@@ -53,26 +53,16 @@ public async Task<IActionResult>
 // update
 [HttpPut("{id}")]
 public async Task<IActionResult>
-    PutUser(Guid id ,[FromBody]user user )
+    Update(Guid id , user updateUser)
 {
-    if (id == user.ای_دی)
-    {
-        _context.Entry(User).State = EntityState.Modified;
-    }
-
-    if (id != user.ای_دی)
-    {
-        return BadRequest("کاربری با این ای دی پیدا نشد");
-    }
-    try
-    {
-        await _context.SaveChangesAsync();
-        return Ok(User);
-    }
-    catch (Exception ex)
-    {
-        return StatusCode(500, ex.ToString());
-    }
+    var user = await 
+        _context.User.FindAsync(id);
+    if (user == null) return NotFound("کاربری با این ای دی پیدا نشد");
+    user.نام = updateUser.نام;
+    user.شماره_تلفن = updateUser.شماره_تلفن;
+    user.ایمیل = updateUser.ایمیل;
+    await _context.SaveChangesAsync();
+    return Ok(User);
 }
 // delete
 [HttpDelete("{id}")]

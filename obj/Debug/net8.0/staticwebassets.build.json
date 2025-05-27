@@ -1,11 +1,12 @@
 {
   "Version": 1,
-  "Hash": "LHgATYF19XIgj5pbWdPwG94ic1H/xi7goQzP6TZXo10=",
+  "Hash": "jEZgjvHB4bi4ui4sUinlOGLNfk2BMZ7UyjphKMyat3k=",
   "Source": "crud",
   "BasePath": "_content/crud",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
-  "Assets": []
+  "Assets": [],
+  "Endpoints": []
 }
