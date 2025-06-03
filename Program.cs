@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using crud;
+using crud.DbContext;
+using crud.Models;
+using crud.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -10,10 +13,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(Options =>
     Options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
-builder.Services.AddTransient<user>();
-// for send email project
-builder.Services.Configure<SmtpSetting>(builder.Configuration.GetSection("SmtpSetting"));
-builder.Services.AddSingleton<EmailService>();
+builder.Services.AddTransient<Category>();
+builder.Services.AddScoped<IComestibleService, ComestibleService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using crud;
+using crud.DbContext;
 
 #nullable disable
 
@@ -22,30 +22,63 @@ namespace crud.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("crud.user", b =>
+            modelBuilder.Entity("crud.Models.Category", b =>
                 {
-                    b.Property<Guid>("ای_دی")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ایمیل")
+                    b.Property<string>("CategoryName")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("شماره_تلفن")
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("crud.Models.Comestible", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CategoryName")
                         .IsRequired()
-                        .HasMaxLength(11)
-                        .HasColumnType("nvarchar(11)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("نام")
+                    b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ای_دی");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("User");
+                    b.HasKey("id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Comestibles");
+                });
+
+            modelBuilder.Entity("crud.Models.Comestible", b =>
+                {
+                    b.HasOne("crud.Models.Category", "Category")
+                        .WithMany("Comestibles")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("crud.Models.Category", b =>
+                {
+                    b.Navigation("Comestibles");
                 });
 #pragma warning restore 612, 618
         }
